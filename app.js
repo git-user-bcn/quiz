@@ -6,9 +6,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-// Se importan también los enrutadores
+// Se importa también el enrutador
 var routes = require('./routes/index');
-var users = require('./routes/users');
 
 // Se crea la aplicación
 var app = express();
@@ -19,7 +18,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + '/public/favicon.ico'));
+
 // Se instalan todos los Middlewares asociados anteriormente
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -27,9 +27,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Se instalan los enrutadores que se importaron anteriormente
+// Se instala el enrutador que se importó anteriormente
 app.use('/', routes);
-app.use('/users', users);
 
 // catch 404 and forward to error handler
 // Middleware que procesará el resto de rutas que no sean las 2 de arriba (ruta vacía y ruta /users)
