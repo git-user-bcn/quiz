@@ -6,6 +6,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// Se importa el módulo express-partials
+var partials = require('express-partials');
+
 // Se importa también el enrutador
 var routes = require('./routes/index');
 
@@ -16,6 +19,9 @@ var app = express();
 // Path donde están las vistas y parámetro View Engine, generador de vistas EJS
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+// Se instala el Middleware express-partials
+app.use(partials());
 
 // uncomment after placing your favicon in /public
 app.use(favicon(__dirname + '/public/favicon.ico'));
