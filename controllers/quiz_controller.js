@@ -16,3 +16,8 @@ exports.answer = function(req, res) {
 		res.render('quizes/answer', {respuesta: 'Incorrecto'});
 	}
 };
+
+// GET /author
+exports.author = function(req,res) {
+	res.render('/author', {autor: 'David Monné Chávez'});
+};

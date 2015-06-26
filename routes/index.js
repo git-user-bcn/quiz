@@ -15,5 +15,8 @@ router.get('/', function(req, res) {
 router.get('/quizes/question', quizController.question);
 router.get('/quizes/answer', quizController.answer);
 
+// Introducimos una nueva ruta en el enrutador, para la vista del autor de la página
+router.get('/author', quizController.author);
+
 // Se exporta el enrutador con los Middlewares instalados
 module.exports = router;
