@@ -11,9 +11,10 @@ router.get('/', function(req, res) {
   res.render('index', { title: 'Quiz' });
 });
 
-// Introducimos dos nuevas rutas en el enrutador. Nos lleva a ejecutar las acciones asociadas a question y answer definidas en el controlador
-router.get('/quizes/question', quizController.question);
-router.get('/quizes/answer', quizController.answer);
+// Definición de rutas de /quizes. Nos lleva a ejecutar las acciones asociadas a question y answer definidas en el controlador
+router.get('/quizes', quizController.index);
+router.get('/quizes/:quizId(\\d+)', quizController.show);
+router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
 
 // Introducimos una nueva ruta en el enrutador, para la vista del autor de la página
 router.get('/author', function(req, res) {
