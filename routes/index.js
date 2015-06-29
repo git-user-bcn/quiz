@@ -11,6 +11,10 @@ router.get('/', function(req, res) {
   res.render('index', { title: 'Quiz' });
 });
 
+// Autoload de comandos con :quizId
+// Se instala con el método param() de express, para que sólo invoque quizController.load si existe el parámetro :quizId
+router.param('quizId', quizController.load);
+
 // Definición de rutas de /quizes. Nos lleva a ejecutar las acciones asociadas a question y answer definidas en el controlador
 router.get('/quizes', quizController.index);
 router.get('/quizes/:quizId(\\d+)', quizController.show);
