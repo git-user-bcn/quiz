@@ -22,22 +22,21 @@ exports.load = function(req, res, next, quizId) {
 // Se buscarán las preguntas que contengan el texto especificado en la query
 exports.index = function(req, res) {
 	var search = req.query.search;
+	var condicion = ('%' + search + '%').replace(/ /g,'%');
 
 	// Si se ha introducido algún parámetro de búsqueda, se prepara la variable search y se realize la query con la condición WHERE
-	if (search !== undefined) {
-		search = search.replace(/[^a-zA-Z0-9@ ]/g,"");
-		// Se sustituyen los espacios en blanco por %
-		search = search.replace(" ", "%");
-		// Se delimita el string contenido en search con % antes y después
-		search = "%" + search + "%";
-		models.Quiz.findAll({where:["pregunta like ?", search]}).then(function(quizes){
+	if (search) {
+		models.Quiz.findAll({
+			where:["pregunta like ?", condicion],
+			order: [['pregunta', 'ASC']]
+		}).then(function(quizes){
 			res.render('quizes/index',{quizes : quizes});
-		});
+		}).catch(function(error) {next(error);});
 		// En caso contrario, se realiza la búsqueda sin la condición WHERE
 	} else {
 		models.Quiz.findAll().then(function(quizes) {
 			res.render('quizes/index', { quizes: quizes});
-	});
+	}).catch(function(error) {next(error);});
 	}
 }
 	
