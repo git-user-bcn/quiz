@@ -55,3 +55,25 @@ exports.answer = function(req, res) {
 	}
 	res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado});
 };
+
+// GET /quizes/new
+exports.new = function(req, res) {
+	// Se crea el objeto quiz
+	var quiz = models.Quiz.build(
+		{pregunta: "Pregunta", respuesta: "Respuesta"}
+	);
+
+	res.render('quizes/new', {quiz: quiz});
+};
+
+// POST /quizes/create
+exports.create = function(req, res) {
+	// SE genera el objeto quiz, inicializándolo con los parámetros enviados desde el formulario, que están accesibles en req.body.quiz
+	var quiz = models.Quiz.build(req.body.quiz);
+
+	// Se guarda en la BBDD los campos pregunta y respuesta de quiz
+	quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+		// Por último, se redirecciona a la lista de preguntas
+		res.redirect('/quizes');
+	})
+};
