@@ -30,19 +30,21 @@ exports.index = function(req, res) {
 			where:["pregunta like ?", condicion],
 			order: [['pregunta', 'ASC']]
 		}).then(function(quizes){
-			res.render('quizes/index',{quizes : quizes});
+			res.render('quizes/index',{quizes : quizes, errors[]});
 		}).catch(function(error) {next(error);});
 		// En caso contrario, se realiza la búsqueda sin la condición WHERE
 	} else {
 		models.Quiz.findAll().then(function(quizes) {
-			res.render('quizes/index', { quizes: quizes});
+			// La vista layout.ejs espera la variable errors. Hay que añadir el parámetro errors:[] al método res.render(..) 
+			// para que renderice correctamente. Al pasar un array vacío no se muestran mensajes de error.
+			res.render('quizes/index', { quizes: quizes, errors[]});
 	}).catch(function(error) {next(error);});
 	}
 }
 	
 // GET /quizes/:id
 exports.show = function(req, res) {
-	res.render('quizes/show', { quiz: req.quiz});
+	res.render('quizes/show', { quiz: req.quiz, errors[]});
 };
 
 // GET /quizes/:id/answer
@@ -53,7 +55,7 @@ exports.answer = function(req, res) {
 	{
 		resultado = 'Correcto';
 	}
-	res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado});
+	res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado, errors[]});
 };
 
 // GET /quizes/new
@@ -63,7 +65,7 @@ exports.new = function(req, res) {
 		{pregunta: "Pregunta", respuesta: "Respuesta"}
 	);
 
-	res.render('quizes/new', {quiz: quiz});
+	res.render('quizes/new', {quiz: quiz, errors[]});
 };
 
 // POST /quizes/create
@@ -71,9 +73,18 @@ exports.create = function(req, res) {
 	// SE genera el objeto quiz, inicializándolo con los parámetros enviados desde el formulario, que están accesibles en req.body.quiz
 	var quiz = models.Quiz.build(req.body.quiz);
 
-	// Se guarda en la BBDD los campos pregunta y respuesta de quiz
-	quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
-		// Por último, se redirecciona a la lista de preguntas
-		res.redirect('/quizes');
-	})
+	quiz
+	.validate()
+	.then(
+		function(err){
+			if (err){
+				res.render('quizes/new', {quiz: quiz, errors: err.errors});
+			} else {			
+				// Se guarda en la BBDD los campos pregunta y respuesta de quiz
+				quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+					// Por último, se redirecciona a la lista de preguntas
+					res.redirect('/quizes')})
+					}
+				}
+		);
 };

@@ -8,7 +8,7 @@ var quizController = require('../controllers/quiz_controller');
 /* GET home page. */
 // Establecemos la ruta vacía en el router, que renderizará el fichero index
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Quiz' });
+  res.render('index', { title: 'Quiz', errors[] });
 });
 
 // Autoload de comandos con :quizId

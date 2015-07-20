@@ -56,7 +56,8 @@ if (app.get('env') === 'development') {
         res.render('error', {
             message: err.message,
             // El stack de errores contendrá mucha información sobre cualquier posible error
-            error: err
+            error: err,
+            errors: []
         });
     });
 }
@@ -69,7 +70,8 @@ app.use(function(err, req, res, next) {
     // Se renderiza una pequeña vista mostrando el mensaje
     res.render('error', {
         message: err.message,
-        error: {}
+        error: {},
+        errors: []
     });
 });
 
