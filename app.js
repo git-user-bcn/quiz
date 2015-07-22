@@ -9,6 +9,9 @@ var bodyParser = require('body-parser');
 // Se importa el módulo express-partials
 var partials = require('express-partials');
 
+// Se importa el módulo method-override que servirá para transformar POST en PUT
+var methodOverride = require('method-override');
+
 // Se importa también el enrutador
 var routes = require('./routes/index');
 
@@ -31,6 +34,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Se instala el enrutador que se importó anteriormente
