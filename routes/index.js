@@ -8,7 +8,7 @@ var quizController = require('../controllers/quiz_controller');
 /* GET home page. */
 // Establecemos la ruta vacía en el router, que renderizará el fichero index
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Quiz', errors[] });
+  res.render('index', { title: 'Quiz', errors: [] });
 });
 
 // Autoload de comandos con :quizId
@@ -24,7 +24,7 @@ router.post('/quizes/create', quizController.create);
 
 // Introducimos una nueva ruta en el enrutador, para la vista del autor de la página
 router.get('/author', function(req, res) {
-	res.render('author', { autor: 'David Monné Chávez' });
+	res.render('author', { autor: 'David Monné Chávez', errors: []});
 });
 
 // Se exporta el enrutador con los Middlewares instalados
