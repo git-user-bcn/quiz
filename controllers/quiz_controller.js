@@ -62,7 +62,7 @@ exports.answer = function(req, res) {
 exports.new = function(req, res) {
 	// Se crea el objeto quiz
 	var quiz = models.Quiz.build(
-		{pregunta: "Pregunta", respuesta: "Respuesta"}
+		{pregunta: "Pregunta", respuesta: "Respuesta", indice_tematico: "Temática"}
 	);
 
 	res.render('quizes/new', {quiz: quiz, errors: []});
@@ -77,8 +77,8 @@ exports.create = function(req, res) {
 		if (err){
 			res.render('quizes/new', {quiz: quiz, errors: err.errors});
 		} else {
-			// Se guarda en la BBDD los campos pregunta y respuesta de quiz
-			quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+			// Se guarda en la BBDD los campos pregunta, respuesta e índice temático de quiz
+			quiz.save({fields: ["pregunta", "respuesta", "indice_tematico"]}).then(function(){
 				// Por último, se redirecciona a la lista de preguntas
 				res.redirect('/quizes')})
 					}
@@ -98,6 +98,7 @@ exports.edit = function(req, res) {
 exports.update = function(req, res) {
 	req.quiz.pregunta = req.body.quiz.pregunta;
 	req.quiz.respuesta = req.body.quiz.respuesta;
+	req.quiz.indice_tematico = req.body.quiz.indice_tematico;
 
 	req.quiz.validate().then(
 		function(err){
@@ -105,7 +106,7 @@ exports.update = function(req, res) {
 				res.render('quizes/edit', {quiz: req.quiz, errors: err.errors});
 			} else {
 				req.quiz
-				.save( {fields: ["pregunta", "respuesta"]})
+				.save( {fields: ["pregunta", "respuesta", "indice_tematico"]})
 				.then( function(){ res.redirect('/quizes');});
 			}
 		});

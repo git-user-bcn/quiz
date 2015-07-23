@@ -43,11 +43,11 @@ sequelize.sync().then(function() {
 		// Si el nº de filas es 0, crea la primera pregunta y la guarda en la tabla
 		if (count === 0) {
 			Quiz.bulkCreate(
-				[ { pregunta: 'Capital de Italia', respuesta: 'Roma'},
-				  { pregunta: 'Capital de Portugal', respuesta: 'Lisboa'},
-				  { pregunta: 'Capital de España', respuesta: 'Madrid'},
-				  { pregunta: 'Capital de Francia', respuesta: 'París'},
-				  { pregunta: 'Capital de Alemania', respuesta: 'Berlín'}
+				[ { pregunta: 'Capital de Italia', respuesta: 'Roma', indice_tematico: 'Humanidades'},
+				  { pregunta: 'Capital de Portugal', respuesta: 'Lisboa', indice_tematico: 'Humanidades'},
+				  { pregunta: 'Capital de España', respuesta: 'Madrid', indice_tematico: 'Humanidades'},
+				  { pregunta: 'Capital de Francia', respuesta: 'París', indice_tematico: 'Humanidades'},
+				  { pregunta: 'Capital de Alemania', respuesta: 'Berlín', indice_tematico: 'Humanidades'}
 				]
 			).then(function(){console.log('Base de datos inicializada')});
 		};

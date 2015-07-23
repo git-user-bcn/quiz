@@ -1,4 +1,4 @@
-// Se define la tabla Quiz, que tendrá 2 campos de tipo String (pregunta y respuesta)
+// Se define la tabla Quiz, que tendrá 3 campos de tipo String (pregunta, respuesta e índice temático)
 
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('Quiz', 
@@ -9,6 +9,9 @@ module.exports = function(sequelize, DataTypes) {
 		respuesta: {
 			type: DataTypes.STRING,
 			validate: { notEmpty: {msg: "-> Fata escribir la respuesta"}}
+	},
+		indice_tematico: {
+			type: DataTypes.STRING
 		}
 	}
 	);
