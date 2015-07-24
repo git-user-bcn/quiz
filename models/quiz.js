@@ -11,7 +11,8 @@ module.exports = function(sequelize, DataTypes) {
 			validate: { notEmpty: {msg: "-> Fata escribir la respuesta"}}
 	},
 		indice_tematico: {
-			type: DataTypes.STRING
+			type: DataTypes.ENUM('Otro','Humanidades','Ocio','Ciencia','Tecnología'),
+			validate: { notEmpty: {msg: "-> Falta seleccionar la temática de la pregunta"}}		
 		}
 	}
 	);

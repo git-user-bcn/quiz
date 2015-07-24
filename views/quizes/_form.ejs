@@ -1,14 +1,14 @@
 <label for="preg" class="rem">Pregunta:</label>
-<input type="text" id="preg" name="quiz[pregunta]" value="<%= quiz.pregunta %>"/> <p>
+<input type="text" id="preg" name="quiz[pregunta]" placeholder="<%= quiz.pregunta %>" value="<%= quiz.pregunta %>"/> <p>
 <label for="resp" class="rem">Respuesta:</label>
-<input type="text" id="resp" name="quiz[respuesta]" value="<%= quiz.respuesta %>"/> <p>
+<input type="text" id="resp" name="quiz[respuesta]" placeholder="<%= quiz.respuesta %>" value="<%= quiz.respuesta %>"/> <p>
 <label for="tema" class="rem">Temática:</label>
-<select name="tema">
-	<option value="otro" selected>Otro</option>
-	<option value="humanidades">Humanidades</option>
-	<option value="ocio">Ocio</option>
-	<option value="ciencia">Ciencia</option>
-	<option value="tecnologia">Tecnología</option>
+<select id="indice_tematico" name="quiz[indice_tematico]">
+	<option value="Otro" <%= quiz.indice_tematico === "Otro" ? "selected" : "" %>>Otro</option>
+	<option value="Humanidades" <%= quiz.indice_tematico === "Humanidades" ? "selected" : "" %>>Humanidades</option>
+	<option value="Ocio" <%= quiz.indice_tematico === "Ocio" ? "selected" : "" %>>Ocio</option>
+	<option value="Ciencia" <%= quiz.indice_tematico === "Ciencia" ? "selected" : "" %>>Ciencia</option>
+	<option value="Tecnología" <%= quiz.indice_tematico === "Tecnología" ? "selected" : "" %>>Tecnología</option>
 </select>
 <a href="/quizes"><button type="button">Cancelar</button></a>
 <input type="submit" value="Guardar">
