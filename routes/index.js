@@ -23,14 +23,17 @@ router.post('/login', sessionController.create);
 router.get('/logout', sessionController.destroy);
 
 // Definición de rutas de /quizes. Nos lleva a ejecutar las acciones asociadas a question y answer definidas en el controlador
+// Una ruta puede invocarse con varios MWs en serie. El primer MW ha de pasar el control al siguiente con next() para que se ejecute
 router.get('/quizes', quizController.index);
 router.get('/quizes/:quizId(\\d+)', quizController.show);
 router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
-router.get('/quizes/new', quizController.new);
-router.post('/quizes/create', quizController.create);
-router.get('/quizes/:quizId(\\d+)/edit', quizController.edit);
-router.put('/quizes/:quizId(\\d+)', quizController.update);
-router.delete('/quizes/:quizId(\\d+)', quizController.destroy);
+// Al añadir sessionController.loginRequired delante de los controladores de acceso que necesitan autenticación, se impide
+// que usuarios sin sesión ejecuten operaciones de crear, editar o borrar recursos
+router.get('/quizes/new', sessionController.loginRequired, quizController.new);
+router.post('/quizes/create', sessionController.loginRequired, quizController.create);
+router.get('/quizes/:quizId(\\d+)/edit', sessionController.loginRequired, quizController.edit);
+router.put('/quizes/:quizId(\\d+)', sessionController.loginRequired, quizController.update);
+router.delete('/quizes/:quizId(\\d+)', sessionController.loginRequired, quizController.destroy);
 
 router.get('/quizes/:quizId(\\d+)/comments/new', commentController.new);
 router.post('/quizes/:quizId(\\d+)/comments', commentController.create);
