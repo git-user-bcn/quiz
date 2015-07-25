@@ -9,8 +9,11 @@ var bodyParser = require('body-parser');
 // Se importa el módulo express-partials
 var partials = require('express-partials');
 
-// Se importa el módulo method-override que servirá para transformar POST en PUT
+// Se importa el módulo method-override, que servirá para transformar POST en PUT
 var methodOverride = require('method-override');
+
+// Se importa el módulo express-session, que servirá para la gestión de las sesiones
+var session = require('express-session');
 
 // Se importa también el enrutador
 var routes = require('./routes/index');
@@ -33,9 +36,24 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-app.use(cookieParser());
+// Se añade la semilla 'Quiz 2015' para cifrar la cookie
+app.use(cookieParser('Quiz 2015'));
+app.use(session());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Helpers dinámicos
+app.use(function(req, res, next) {
+    // Se guarda la ruta de cada solicitud HTTP en la variable session.redir, para poder redireccionar a la vista anterior
+    // después de hacer login o logout
+    if (!req.path.match(/\/login|\/logout/)) {
+        req.session.redir = req.path;
+    }
+
+    // Se copia la sesión que está accesible en req.session en res.local.session, para que esté accesible en las vistas
+    res.locals.session = req.session;
+    next();
+});
 
 // Se instala el enrutador que se importó anteriormente
 app.use('/', routes);

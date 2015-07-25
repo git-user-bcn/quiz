@@ -44,3 +44,8 @@ nav span
 	color: #f61;
 	font-size: smaller;
 }
+
+.right
+{
+	float: right;
+}

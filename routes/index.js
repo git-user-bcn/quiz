@@ -2,9 +2,10 @@
 var express = require('express');
 // Se genera un enrutador básico en la variable router
 var router = express.Router();
-// Se importa quiz_controller.js y comment_controller.js
+// Se importa quiz_controller.js, comment_controller.js y session_controller.js
 var quizController = require('../controllers/quiz_controller');
 var commentController = require('../controllers/comment_controller');
+var sessionController = require('../controllers/session_controller');
 
 /* GET home page. */
 // Establecemos la ruta vacía en el router, que renderizará el fichero index
@@ -15,6 +16,11 @@ router.get('/', function(req, res) {
 // Autoload de comandos con :quizId
 // Se instala con el método param() de express, para que sólo invoque quizController.load si existe el parámetro :quizId
 router.param('quizId', quizController.load);
+
+// Definición de rutas de sesión (formulario login, crear sesión y destruir sesión)
+router.get('/login', sessionController.new);
+router.post('/login', sessionController.create);
+router.get('/logout', sessionController.destroy);
 
 // Definición de rutas de /quizes. Nos lleva a ejecutar las acciones asociadas a question y answer definidas en el controlador
 router.get('/quizes', quizController.index);
