@@ -7,8 +7,14 @@ var models = require('../models/models.js');
 // Se busca el quizId en la BD, y se ejecuta una función que, si lo ha encontrado, 
 // lo asigna a req.quiz y ejecuta un next() para que se ejecute el Middleware correspondiente
 // En caso contraio, se muestra un mensaje de que no se ha encontrado
+// El parámetro "where" indica buscar el quiz identificado por quizId
+// El parámetro "include" solicitar cargar en la propiedad quiz.Comments los comentarios asociados al quiz
+// a través de la relación 1-N entre Quiz y Comment
 exports.load = function(req, res, next, quizId) {
-	models.Quiz.find(quizId).then(
+	models.Quiz.find({
+		where: { id: Number(quizId) },
+		include: [{ model: models.Comment }]
+	}).then(
 		function(quiz) {
 			if (quiz) {
 				req.quiz = quiz;

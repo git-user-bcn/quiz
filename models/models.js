@@ -32,8 +32,17 @@ var sequelize = new Sequelize(DB_name, user, pwd,
 var quiz_path = path.join(__dirname,'quiz');
 var Quiz = sequelize.import(quiz_path);
 
-// Se exporta la definición de la tabla Quiz, por si la necesitan usar otros ficheros
+// Importar la definición de la tabla Comment
+var comment_path = path.join(__dirname, 'comment');
+var Comment = sequelize.import(comment_path);
+
+// Relación 1 a N entre Quiz y Comment (1 quiz tiene muchos comentarios)
+Comment.belongsTo(Quiz);
+Quiz.hasMany(Comment);
+
+// Se exporta la definición de la tabla Quiz y la tabla Comment, por si la necesitan usar otros ficheros
 exports.Quiz = Quiz;
+exports.Comment = Comment;
 
 // El método sequelize.sync() crea automáticamente el fichero quiz.sqlite e inicializa la tabla de preguntas en la BD, si no existe
 // Si existe sincroniza con nuevas definiciones del modelo, seimpre que sean compatibles con anteriores.

@@ -2,8 +2,9 @@
 var express = require('express');
 // Se genera un enrutador básico en la variable router
 var router = express.Router();
-// Se importa quiz_controller.js
+// Se importa quiz_controller.js y comment_controller.js
 var quizController = require('../controllers/quiz_controller');
+var commentController = require('../controllers/comment_controller');
 
 /* GET home page. */
 // Establecemos la ruta vacía en el router, que renderizará el fichero index
@@ -24,6 +25,9 @@ router.post('/quizes/create', quizController.create);
 router.get('/quizes/:quizId(\\d+)/edit', quizController.edit);
 router.put('/quizes/:quizId(\\d+)', quizController.update);
 router.delete('/quizes/:quizId(\\d+)', quizController.destroy);
+
+router.get('/quizes/:quizId(\\d+)/comments/new', commentController.new);
+router.post('/quizes/:quizId(\\d+)/comments', commentController.create);
 
 // Introducimos una nueva ruta en el enrutador, para la vista del autor de la página
 router.get('/author', function(req, res) {
