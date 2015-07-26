@@ -35,6 +35,9 @@ exports.create = function(req, res) {
 		// La sesión se define por la existencia de "req.sesion.user"
 		req.session.user = {id:user.id, username:user.username};
 
+		// Se crea una variable para controlar el tiempo de expiración (2 mins = 2 * 60 * 1000) mins * segundos * milisegundos
+		req.session.tiempo_expirado = (new Date()).getTime() + 120000;
+
 		// Se redirecciona al path anterior a login
 		res.redirect(req.session.redir.toString());
 	});

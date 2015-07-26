@@ -42,6 +42,30 @@ app.use(session());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// MW que controla si pasan 2 mins de inactividad desde que el usuario se identifica, en cuyo caso cierra la sesión
+// El tiempo se expresa en milisegundos. 2 mins = 2 * 60 * 1000 = 120000
+app.use(function(req, res, next) {
+    var tiempo_max = 120000;
+
+    // Si se ha iniciado la sesión con un usuario
+    if (req.session.user)
+    {
+        // Se comprueba si se ha superado el tiempo máximo de inactividad. Si no se ha superado
+        if (req.session.tiempo_expirado > (new Date()).getTime())    
+        {
+            // Se actualiza la hora de expiración
+            req.session.tiempo_expirado = (new Date()).getTime() + tiempo_max;
+        }
+        // En caso contrario (se ha superado el tiempo), se cierra la sesión
+        else
+        {
+            // req.session.destroy();
+            delete req.session.user;
+        }
+    }
+    next();
+});
+
 // Helpers dinámicos
 app.use(function(req, res, next) {
     // Se guarda la ruta de cada solicitud HTTP en la variable session.redir, para poder redireccionar a la vista anterior
@@ -96,6 +120,5 @@ app.use(function(err, req, res, next) {
         errors: []
     });
 });
-
 
 module.exports = app;
