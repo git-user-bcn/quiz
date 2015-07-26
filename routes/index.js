@@ -16,6 +16,8 @@ router.get('/', function(req, res) {
 // Autoload de comandos con :quizId
 // Se instala con el método param() de express, para que sólo invoque quizController.load si existe el parámetro :quizId
 router.param('quizId', quizController.load);
+// Autoload :commentId (el comentario estará disponible cuando la acción publish se ejecute)
+router.param('commentId', commentController.load);
 
 // Definición de rutas de sesión (formulario login, crear sesión y destruir sesión)
 router.get('/login', sessionController.new);
@@ -35,8 +37,10 @@ router.get('/quizes/:quizId(\\d+)/edit', sessionController.loginRequired, quizCo
 router.put('/quizes/:quizId(\\d+)', sessionController.loginRequired, quizController.update);
 router.delete('/quizes/:quizId(\\d+)', sessionController.loginRequired, quizController.destroy);
 
+// Definición de rutas de comentarios
 router.get('/quizes/:quizId(\\d+)/comments/new', commentController.new);
 router.post('/quizes/:quizId(\\d+)/comments', commentController.create);
+router.get('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish', sessionController.loginRequired, commentController.publish);
 
 // Introducimos una nueva ruta en el enrutador, para la vista del autor de la página
 router.get('/author', function(req, res) {
