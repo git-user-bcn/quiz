@@ -1,0 +1,17 @@
+<h2>Estadísticas Quiz 2015</h2>
+</br>
+<ul>
+	<li>Nº de preguntas en total: <%= estadisticas.quizes %></li>
+	<li>Nº de preguntas con comentarios: <%= estadisticas.pregs_comentadas %></li>
+	<li>Nº de preguntas sin comentarios: <%= estadisticas.quizes - estadisticas.pregs_comentadas %></li>
+</ul>
+</br>
+<ul>
+	<li>Nº de comentarios en total: <%= estadisticas.comentarios_total %></li>
+	<li>Nº de comentarios publicados: <%= estadisticas.comentarios_total - estadisticas.coments_sin_pub %></li>
+	<li>Nº de comentarios sin publicar: <%= estadisticas.coments_sin_pub %></li>
+</ul>
+</br>
+<ul>
+	<li>Promedio de comentarios por pregunta: <%= estadisticas.quizes?(estadisticas.comentarios_total / estadisticas.quizes).toFixed(2):0 %></li>
+</ul>

@@ -2,10 +2,11 @@
 var express = require('express');
 // Se genera un enrutador básico en la variable router
 var router = express.Router();
-// Se importa quiz_controller.js, comment_controller.js y session_controller.js
+// Se importa quiz_controller.js, comment_controller.js, session_controller.js y estatistics_controller.js
 var quizController = require('../controllers/quiz_controller');
 var commentController = require('../controllers/comment_controller');
 var sessionController = require('../controllers/session_controller');
+var statisticsController = require('../controllers/statistics_controller');
 
 /* GET home page. */
 // Establecemos la ruta vacía en el router, que renderizará el fichero index
@@ -41,6 +42,9 @@ router.delete('/quizes/:quizId(\\d+)', sessionController.loginRequired, quizCont
 router.get('/quizes/:quizId(\\d+)/comments/new', commentController.new);
 router.post('/quizes/:quizId(\\d+)/comments', commentController.create);
 router.get('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish', sessionController.loginRequired, commentController.publish);
+
+// Definición de la ruta para las estadísticas
+router.get('/quizes/statistics', statisticsController.analizaQuiz, statisticsController.show);
 
 // Introducimos una nueva ruta en el enrutador, para la vista del autor de la página
 router.get('/author', function(req, res) {

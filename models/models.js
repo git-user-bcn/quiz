@@ -37,8 +37,12 @@ var comment_path = path.join(__dirname, 'comment');
 var Comment = sequelize.import(comment_path);
 
 // Relación 1 a N entre Quiz y Comment (1 quiz tiene muchos comentarios)
+// Se añade un borrado en cascada. De esta forma, al eliminar una pregunta, se eliminan también sus comentarios
 Comment.belongsTo(Quiz);
-Quiz.hasMany(Comment);
+Quiz.hasMany(Comment, { onDelete: 'cascade', hooks: true });
+// Info sacada de: docs.sequelizejs.com/en/latest/docs/hooks
+// "Adding hooks: true explicitly tells Sequelize that optimization is not of your concern and will perform a SELECT on the associated
+// objects and destroy each instance one by one in order to be able to call the hooks with the right parameters"
 
 // Se exporta la definición de la tabla Quiz y la tabla Comment, por si la necesitan usar otros ficheros
 exports.Quiz = Quiz;
